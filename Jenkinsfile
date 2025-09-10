@@ -6,6 +6,11 @@ pipeline {
         jdk 'JDK17'
     }
 
+    triggers {
+    cron('H/30 6-18 * * 1-5')
+}
+
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -27,19 +32,36 @@ pipeline {
 
         stage('Archive Reports') {
             steps {
-                // ✅ Now cucumber.xml will actually exist
                 junit 'target/cucumber-reports/cucumber.xml'
                 archiveArtifacts artifacts: 'target/cucumber-reports/*.*', fingerprint: true
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // 🐳 Build Docker image from Dockerfile in repo
+                    bat 'docker build -t cucumber-mail-pipeline:latest .'
+                }
+            }
+        }
+
+        stage('Run Docker Image') {
+            steps {
+                script {
+                    // 🐳 Run container & clean after exit
+                    bat 'docker run --rm cucumber-mail-pipeline:latest'
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'Build Successful'
+            echo '✅ Build & Docker Run Successful'
         }
         failure {
-            echo 'Build Failed'
+            echo '❌ Build Failed'
         }
     }
 }

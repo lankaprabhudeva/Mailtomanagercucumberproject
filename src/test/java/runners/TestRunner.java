@@ -6,18 +6,19 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-    features = "src/test/resources/features",   // path to your feature files
-    glue = {"stepDefinitions", "utils"},        // packages for step defs + hooks
+    features = "src/test/resources/features",
+    glue = {"stepDefinitions", "utils"},
     plugin = {
-        "pretty",                               // readable console output
+        "pretty",
         "html:target/cucumber-reports/cucumber.html",
         "json:target/cucumber-reports/cucumber.json",
-        "junit:target/cucumber-reports/cucumber.xml"   // ✅ add JUnit XML
+        "junit:target/cucumber-reports/cucumber.xml"   // ✅ Added JUnit XML
     },
-    monochrome = true,                          // cleaner console logs
-    dryRun = false,                             // true = check mapping only, no execution
-    publish = true                              // generates a public report link
+    monochrome = true,
+    dryRun = false,
+    publish = true
 )
 public class TestRunner {
 }
+
 

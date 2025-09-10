@@ -26,12 +26,12 @@ pipeline {
         }
 
         stage('Archive Reports') {
-    steps {
-        junit 'target/cucumber-reports/cucumber.xml'
-        archiveArtifacts artifacts: 'target/cucumber-reports/*.html', fingerprint: true
-    }
-}
-
+            steps {
+                // ✅ Now cucumber.xml will actually exist
+                junit 'target/cucumber-reports/cucumber.xml'
+                archiveArtifacts artifacts: 'target/cucumber-reports/*.*', fingerprint: true
+            }
+        }
     }
 
     post {

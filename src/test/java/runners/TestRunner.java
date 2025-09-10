@@ -12,7 +12,7 @@ import io.cucumber.junit.CucumberOptions;
         "pretty",
         "html:target/cucumber-reports/cucumber.html",
         "json:target/cucumber-reports/cucumber.json",
-        "junit:target/cucumber-reports/cucumber.xml"   // ✅ Added JUnit XML
+        "junit:target/cucumber-reports/cucumber.xml"   // ✅ Add this line
     },
     monochrome = true,
     dryRun = false,

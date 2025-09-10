@@ -85,16 +85,18 @@
         <plugins>
             <!-- Force JUnit 4 runner -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
-                <configuration>
-                    <includes>
-                        <include>**/TestRunner.java</include>
-                    </includes>
-                    <useModulePath>false</useModulePath>
-                </configuration>
-            </plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.2.5</version>
+    <configuration>
+        <includes>
+            <include>**/TestRunner.java</include>
+        </includes>
+        <useModulePath>false</useModulePath>
+        <testNGArtifactName>none:none</testNGArtifactName> <!-- ✅ Disable TestNG -->
+    </configuration>
+</plugin>
+
         </plugins>
     </build>
   

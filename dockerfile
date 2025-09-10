@@ -1,4 +1,6 @@
-# Use Maven with JDK 17
+# -----------------------------
+# Build Stage
+# -----------------------------
 FROM maven:3.9.4-eclipse-temurin-17 AS build
 
 # Set working directory
@@ -7,22 +9,20 @@ WORKDIR /app
 # Copy project files into the container
 COPY . .
 
-# Build the project, allow skipping tests via build arg
-ARG SKIP_TESTS=false
-RUN if [ "$SKIP_TESTS" = "true" ]; then \
-      mvn clean package -DskipTests; \
-    else \
-      mvn clean package; \
-    fi
+# Build the project (skip tests, since Jenkins runs them separately)
+RUN mvn clean package -DskipTests
 
-# ----------------------------------------------------------
-# Runtime image (lighter than Maven)
-# ----------------------------------------------------------
+# -----------------------------
+# Runtime Stage (lighter image)
+# -----------------------------
 FROM eclipse-temurin:17-jdk
+
+# Set working directory
 WORKDIR /app
 
-# Copy compiled app from builder image
+# Copy packaged jar from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Run the packaged jar
+# (Optional) Run jar if your project is an application
+# If it's only a test automation repo, you can remove this CMD line
 CMD ["java", "-jar", "app.jar"]

@@ -7,6 +7,7 @@ pipeline {
     }
 
     triggers {
+        // Run every 30 minutes, Mon–Fri, between 6 AM and 6:59 PM
         cron('H/30 6-18 * * 1-5')
     }
 
@@ -19,13 +20,14 @@ pipeline {
 
         stage('Build Project') {
             steps {
-                // Build project but skip tests (we'll run tests in next stage)
+                // Build project but skip tests (we run them separately in next stage)
                 bat 'mvn clean install -DskipTests'
             }
         }
 
         stage('Run Tests') {
             steps {
+                // Run tests on Jenkins (reports + email)
                 bat 'mvn test'
             }
         }
@@ -40,28 +42,28 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // 🐳 Build Docker image but skip tests inside Docker build
-                    bat 'docker build --build-arg SKIP_TESTS=true -t cucumber-mail-pipeline:latest .'
+                    // 🐳 Build Docker image without tests
+                    bat 'docker build -t cucumber-mail-pipeline:latest .'
                 }
             }
         }
 
-        stage('Run Docker Image') {
-            steps {
-                script {
-                    // 🐳 Run container & clean after exit
-                    bat 'docker run --rm cucumber-mail-pipeline:latest'
-                }
-            }
-        }
+        // ❌ Remove this stage unless you really want to run app.jar in Docker
+        // stage('Run Docker Image') {
+        //     steps {
+        //         script {
+        //             bat 'docker run --rm cucumber-mail-pipeline:latest'
+        //         }
+        //     }
+        // }
     }
 
     post {
         success {
-            echo '✅ Build & Docker Run Successful'
+            echo '✅ Build & Tests Successful, Docker image created'
         }
         failure {
-            echo '❌ Build Failed'
+            echo '❌ Build or Tests Failed'
         }
     }
 }

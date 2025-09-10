@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="19.636" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-10T09:55:30.062472900Z">
+<testcase classname="Update Naukri Profile" name="Login and update resume" time="19.198">
+<system-out><![CDATA[
+Given I launch the browser and open the Naukri site.........................passed
+When I login with valid credentials.........................................passed
+And I navigate to the update profile page...................................passed
+And I scroll down to the resume section.....................................passed
+And I upload my latest resume...............................................passed
+Then I close the browser....................................................passed
+]]></system-out>
+</testcase>
+</testsuite>

@@ -7,9 +7,8 @@ pipeline {
     }
 
     triggers {
-    cron('H/30 6-18 * * 1-5')
-}
-
+        cron('H/30 6-18 * * 1-5')
+    }
 
     stages {
         stage('Checkout Code') {
@@ -20,7 +19,8 @@ pipeline {
 
         stage('Build Project') {
             steps {
-                bat 'mvn clean install'
+                // Build project but skip tests (we'll run tests in next stage)
+                bat 'mvn clean install -DskipTests'
             }
         }
 
@@ -40,8 +40,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // 🐳 Build Docker image from Dockerfile in repo
-                    bat 'docker build -t cucumber-mail-pipeline:latest .'
+                    // 🐳 Build Docker image but skip tests inside Docker build
+                    bat 'docker build --build-arg SKIP_TESTS=true -t cucumber-mail-pipeline:latest .'
                 }
             }
         }

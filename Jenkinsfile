@@ -26,11 +26,12 @@ pipeline {
         }
 
         stage('Archive Reports') {
-            steps {
-                // Archive TestNG reports
-                junit '**/test-output/junitreports/*.xml'
-            }
-        }
+    steps {
+        junit 'target/cucumber-reports/cucumber.xml'
+        archiveArtifacts artifacts: 'target/cucumber-reports/*.html', fingerprint: true
+    }
+}
+
     }
 
     post {

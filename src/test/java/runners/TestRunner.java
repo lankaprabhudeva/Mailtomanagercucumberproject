@@ -11,7 +11,8 @@ import io.cucumber.junit.CucumberOptions;
     plugin = {
         "pretty",                               // readable console output
         "html:target/cucumber-reports/cucumber.html",
-        "json:target/cucumber-reports/cucumber.json"
+        "json:target/cucumber-reports/cucumber.json",
+        "junit:target/cucumber-reports/cucumber.xml"   // ✅ add JUnit XML
     },
     monochrome = true,                          // cleaner console logs
     dryRun = false,                             // true = check mapping only, no execution
@@ -19,3 +20,4 @@ import io.cucumber.junit.CucumberOptions;
 )
 public class TestRunner {
 }
+

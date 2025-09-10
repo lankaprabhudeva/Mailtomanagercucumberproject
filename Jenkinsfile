@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'gh repo clone lankaprabhudeva/Mailtomanagercucumberproject', branch: 'main'
+                git url: 'https://github.com/lankaprabhudeva/Mailtomanagercucumberproject.git', branch: 'main'
             }
         }
 
